@@ -1,0 +1,784 @@
+{
+	"info": {
+		"_postman_id": "08a184db-9ac0-4389-b8e6-b3071b652f4e",
+		"name": "Group_18",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get_method",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/get_method?name=Natallya&age=18",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_method"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Natallya"
+						},
+						{
+							"key": "age",
+							"value": "18"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "login",
+							"value": "Alex",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "lopata",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user_info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Salary\", function () {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.qa_salary_after_6_months).to.eql(responseJson.start_qa_salary*2);\r",
+							"    pm.expect(responseJson.qa_salary_after_12_months).to.eql(responseJson.start_qa_salary*2.9);\r",
+							"     pm.expect(responseJson.person.u_salary_1_5_year).to.eql(responseJson.start_qa_salary*4);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"JSON schems is valid\", () => {\r",
+							"    const schema = {\r",
+							"        \"type\": \"object\",\r",
+							"  \"required\": [\r",
+							"    \"person\",\r",
+							"    \"qa_salary_after_12_months\",\r",
+							"    \"qa_salary_after_6_months\",\r",
+							"    \"start_qa_salary\"\r",
+							"  ],\r",
+							"  \"properties\": {\r",
+							"    \"person\": {\r",
+							"       \"type\": \"object\",\r",
+							"       \"required\": [\r",
+							"        \"u_age\",\r",
+							"        \"u_name\",\r",
+							"        \"u_salary_1_5_year\"\r",
+							"      ],\r",
+							"      \"properties\": {\r",
+							"        \"u_age\": {\r",
+							"          \"type\": \"integer\",\r",
+							"          \"examples\": [\r",
+							"            29\r",
+							"          ],\r",
+							"          },\r",
+							"        \"u_name\": {\r",
+							"          \"type\": \"array\",\r",
+							"          \"default\": []\r",
+							"        },\r",
+							"        \"u_salary_1_5_year\": {\r",
+							"          \"type\": \"integer\",\r",
+							"          \"examples\": [\r",
+							"            12000\r",
+							"          ],\r",
+							"        }\r",
+							"      }\r",
+							"    }\r",
+							",\r",
+							"    \"qa_salary_after_12_months\": {\r",
+							"      \"type\": \"integer\",\r",
+							"      \"examples\": [\r",
+							"        8700\r",
+							"      ],\r",
+							"    },\r",
+							"    \"qa_salary_after_6_months\": {\r",
+							"      \"type\": \"integer\",\r",
+							"      \"examples\": [\r",
+							"        6000\r",
+							"      ],\r",
+							"    },\r",
+							"    \"start_qa_salary\": {\r",
+							"        \"type\": \"integer\",\r",
+							"      \"examples\": [\r",
+							"        3000\r",
+							"      ],\r",
+							"    }\r",
+							"  }\r",
+							"}\r",
+							"        pm.response.to.have.jsonSchema(schema)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Salary 1.5\", function () {\r",
+							"    const u_salary_1_5_year = { u_salary_1_5_year: 12000}\r",
+							"    \r",
+							"    const options = {\r",
+							"        method: 'POST',\r",
+							"        url: 'http://162.55.220.72:5005/get_test_user',\r",
+							"        body: {\r",
+							"            mode: 'form-data',\r",
+							"            'formdata': [\r",
+							"                {\"key\": \"u_salary_1_5_year\", \"value\": \"variable_key\"}]\r",
+							"\r",
+							"        }\r",
+							"    };\r",
+							"});\r",
+							"\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
+							"\r",
+							"const options = {\r",
+							"        url: 'http://162.55.220.72:5005/get_test_user',\r",
+							"        method: 'POST',\r",
+							"         body: {\r",
+							"            mode: 'formdata',\r",
+							"            'formdata': [\r",
+							"                {\"key\": \"salary\", \"value\": jsonData.person.u_salary_1_5_year},\r",
+							"                {\"key\": \"name\", \"value\": \"Alex\"},\r",
+							"                {\"key\": \"auth_token\", \"value\":  environment.token},\r",
+							"                {\"key\": \"age\", \"value\": 29}\r",
+							"                ]\r",
+							"        }\r",
+							"   };\r",
+							"pm.sendRequest(options, function (err, response) {\r",
+							"    console.log(response.json());\r",
+							"    console.log(err); \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"age\": 29,\r\n    \"salary\": 3000,\r\n    \"name\": \"Alex\",\r\n    \"auth_token\": \"{{token}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/user_info",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user_info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new_data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"});\r",
+							"\r",
+							"pm.test('Schema is valid', () => {\r",
+							"    const schema = {\r",
+							"        \"type\": \"object\",\r",
+							"        \"required\": [\r",
+							"    \"age\",\r",
+							"    \"name\",\r",
+							"    \"salary\"\r",
+							"  ],\r",
+							"  \"properties\": {\r",
+							"    \"age\": { \r",
+							"      \"type\": \"integer\",\r",
+							"      \"examples\": [\r",
+							"        29\r",
+							"      ],\r",
+							"      \"default\": 0\r",
+							"    },\r",
+							"    \"name\": { \r",
+							"      \"type\": \"string\",\r",
+							"      \"default\": \"\",\r",
+							"      \"examples\": [\r",
+							"        \"Alex\"\r",
+							"      ],\r",
+							"    },\r",
+							"    \"salary\": { \r",
+							"      \"type\": \"array\",\r",
+							"      \"default\": []\r",
+							"    }\r",
+							"  }\r",
+							"}\r",
+							"       pm.response.to.have.jsonSchema(schema)\r",
+							"});\r",
+							"\r",
+							"console.log(Number.parseInt());\r",
+							"\r",
+							"pm.test(\"multiplication factors\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(parseInt(jsonData.salary[1])).to.eql(jsonData.salary[0]*2);\r",
+							"    pm.expect(parseInt(jsonData.salary[2])).to.eql(jsonData.salary[0]*3);\r",
+							"     console.log(parseInt(jsonData.salary[1]));\r",
+							"     console.log(parseInt(jsonData.salary[2]));\r",
+							"     console.log(jsonData.salary[0]*2);\r",
+							"     console.log(jsonData.salary[0]*3);\r",
+							"});\r",
+							"\r",
+							"console.log(Number.parseInt());\r",
+							"\r",
+							"pm.test(\"comparing array elements\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(parseInt(jsonData.salary[2])).to.above(parseInt(jsonData.salary[1]));\r",
+							"    pm.expect(parseInt(jsonData.salary[2])).to.above(jsonData.salary[0]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "age",
+							"value": "29",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "3000",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Alex",
+							"type": "text"
+						},
+						{
+							"key": "auth_token",
+							"value": "{{token}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/new_data",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"new_data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test_pet_info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    const schema = {\r",
+							"        \"type\": \"object\",\r",
+							"  \"required\": [\r",
+							"    \"age\",\r",
+							"    \"daily_food\",\r",
+							"    \"daily_sleep\",\r",
+							"    \"name\"\r",
+							"  ],\r",
+							"  \"properties\": {\r",
+							"    \"age\": {\r",
+							"      \"title\": \"Age\", \r",
+							"      \"type\": \"integer\",\r",
+							"      \"examples\": [\r",
+							"        29\r",
+							"      ],\r",
+							"      \"default\": 0\r",
+							"    },\r",
+							"    \"daily_food\": {\r",
+							"      \"title\": \"Daily_food\", \r",
+							"      \"type\": \"number\",\r",
+							"      \"examples\": [\r",
+							"        0.96\r",
+							"      ],\r",
+							"      \"default\": 0.0\r",
+							"    },\r",
+							"    \"daily_sleep\": {\r",
+							"      \"title\": \"Daily_sleep\", \r",
+							"      \"type\": \"integer\",\r",
+							"      \"examples\": [\r",
+							"        200\r",
+							"      ],\r",
+							"      \"default\": 0\r",
+							"    },\r",
+							"    \"name\": { \r",
+							"      \"title\": \"Name\", \r",
+							"      \"type\": \"string\",\r",
+							"      \"default\": \"\",\r",
+							"      \"examples\": [\r",
+							"        \"Alex\"\r",
+							"      ],\r",
+							"    }\r",
+							"  }\r",
+							"}\r",
+							"        \r",
+							"         pm.response.to.have.jsonSchema(schema)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check weight\", function () {\r",
+							"     var jsonData = pm.response.json();  \r",
+							"    pm.expect(jsonData.daily_sleep).to.eql(request.data.weight*2.5);\r",
+							"    pm.expect(jsonData.daily_food).to.eql(request.data.weight*0.012);\r",
+							"console.log(jsonData.daily_sleep);\r",
+							"console.log(jsonData.daily_food);\r",
+							"console.log(request.data.weight*2.5);\r",
+							"console.log(request.data.weight*0.012);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "age",
+							"value": "29",
+							"type": "text"
+						},
+						{
+							"key": "weight",
+							"value": "80",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Alex",
+							"type": "text"
+						},
+						{
+							"key": "auth_token",
+							"value": "{{token}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/test_pet_info?=&=&=&=",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"test_pet_info"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						},
+						{
+							"key": "",
+							"value": ""
+						},
+						{
+							"key": "",
+							"value": ""
+						},
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_test_user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    const schema = {\r",
+							"        \"type\": \"object\",\r",
+							"  \"required\": [\r",
+							"    \"age\",\r",
+							"    \"family\",\r",
+							"    \"name\",\r",
+							"    \"salary\"\r",
+							"  ],\r",
+							"  \"properties\": {\r",
+							"    \"age\": {\r",
+							"      \"type\": \"string\",\r",
+							"      \"default\": \"\",\r",
+							"      \"examples\": [\r",
+							"        \"29\"\r",
+							"      ],\r",
+							"    },\r",
+							"    \"family\": { \r",
+							"      \"type\": \"object\",\r",
+							"      \"required\": [\r",
+							"        \"children\",\r",
+							"        \"u_salary_1_5_year\"\r",
+							"      ],\r",
+							"      \"properties\": {\r",
+							"        \"children\": { \r",
+							"          \"type\": \"array\",\r",
+							"          \"default\": [],\r",
+							"          \"items\":{\r",
+							"            \"type\": \"array\",\r",
+							"            \"default\": []\r",
+							"          }\r",
+							"        },\r",
+							"        \"u_salary_1_5_year\": { \r",
+							"          \"type\": \"integer\",\r",
+							"          \"examples\": [\r",
+							"            12000\r",
+							"          ],\r",
+							"          \"default\": 0\r",
+							"        }\r",
+							"      }\r",
+							"    }\r",
+							",\r",
+							"    \"name\": {\r",
+							"      \"type\": \"null\",\r",
+							"      \"default\": null\r",
+							"    },\r",
+							"    \"salary\": { \r",
+							"      \"type\": \"integer\",\r",
+							"      \"examples\": [\r",
+							"        3000\r",
+							"      ],\r",
+							"      \"default\": 0\r",
+							"    }\r",
+							"  }\r",
+							"}\r",
+							"    pm.response.to.have.jsonSchema(schema)\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"name\", jsonData.name);\r",
+							"\r",
+							"pm.test(\"body.name.to.eql.environment.name\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.name).to.eql(environment.name);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "age",
+							"value": "29",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "3000",
+							"type": "text"
+						},
+						{
+							"key": "name ",
+							"value": "Alex",
+							"type": "text"
+						},
+						{
+							"key": "auth_token",
+							"value": "{{token}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/get_test_user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"get_test_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "currency",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData =  JSON.parse(responseBody);\r",
+							"var randomCur_ID = _.sample(jsonData);\r",
+							"postman.setEnvironmentVariable(\"curr_code\", randomCur_ID.Cur_ID);\r",
+							"console.log(randomCur_ID.Cur_ID);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "auth_token",
+							"value": "{{token}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/currency",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"currency"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "curr_byn",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "auth_token",
+							"value": "{{token}}",
+							"type": "text"
+						},
+						{
+							"key": "curr_code",
+							"value": "487",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/curr_byn",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"curr_byn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "currency***",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test (\"Iteration\", function(){\r",
+							"    let jsonData = pm.response.json();\r",
+							"    let id = 0;\r",
+							"    for (id = 0; id < jsonData.length; id++){\r",
+							"        const postRequest = {\r",
+							"            url: pm.variables.get('url') + \"/curr_byn\",\r",
+							"            method: 'POST',\r",
+							"            headers: {'Content-Type': 'multipart/form-data'},\r",
+							"            body: { \r",
+							"                mode: 'formdata',\r",
+							"                formdata:[{\r",
+							"                    \"key\":\"auth_token\",\r",
+							"                    \"value\": pm.variables.get('token')},\r",
+							"                    {\"key\":\"curr_code\",\r",
+							"                    \"value\": jsonData[id].Cur_ID\r",
+							"                    }]\r",
+							"            }, \r",
+							"        };\r",
+							"        pm.sendRequest(postRequest, (error, response) => {\r",
+							"            if (response.code === 200) {\r",
+							"                console.log(response.json());\r",
+							"            }\r",
+							"        })\r",
+							"    };\r",
+							"});\r",
+							"\r",
+							"pm.test (\"test code\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var numberSelected = 0;\r",
+							"    for (let i=0; i<jsonData.length; i++){\r",
+							"        console.log(jsonData[1].Cur_ID)\r",
+							"        if (responseCode.code ===500){\r",
+							"            numberSelected++}\r",
+							"            else if (responseCode.code ===200){\r",
+							"                let hasName = \"Cur_OfficialRate\" in jsonData;\r",
+							"                console.log(hasName);\r",
+							"            };\r",
+							"        };\r",
+							"    })\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "auth_token",
+							"value": "{{token}}",
+							"type": "text"
+						},
+						{
+							"key": "curr_code",
+							"value": "450",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/currency?=",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"currency"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
